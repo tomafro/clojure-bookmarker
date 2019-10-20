@@ -70,7 +70,7 @@
 
 (doseq [[code status] status-codes]
   (let [name (symbol status)]
-    (eval `(def ~name (partial response ~code)))))
+    (eval `(defonce ~name (partial response ~code)))))
 
 (defn redirect-to
   [url]

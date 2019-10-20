@@ -1,15 +1,30 @@
 (ns bookmarks
   (:require
+   [hiccup.core :refer [html h]]
    [response]))
 
-(defn new-bookmark
+(defn new-bookmark-view
   []
-  response/ok)
+  (html [:div "hello world"]))
 
-(defn create-bookmark
+(defn new-bookmark
+  [request]
+  (response/ok (new-bookmark-view)))
+
+(defn show-bookmark-view
   []
-  response/created)
+  (html [:div "show-bookmark"]))
 
 (defn show-bookmark
-  []
-  response/ok)
+  [request]
+  (response/ok (show-bookmark-view)))
+
+(defn new-or-show-bookmark
+  [request]
+  (if (= "new" (get-in request [:path-params :bookmark-id]))
+    (new-bookmark request)
+    (show-bookmark request)))
+
+(defn create-bookmark
+  [request]
+  (response/created))

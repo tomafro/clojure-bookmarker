@@ -2,24 +2,14 @@
   (:require
    [io.pedestal.http :as http]
    [io.pedestal.http.route :as route]
-   [io.pedestal.test :as test]))
-
-(def new-bookmark
-  {:name :new-bookmark
-   :enter
-   (fn [context]
-     (let [request (:request context)
-           response (ok context)]
-       (assoc context :response response)))})
-
-(def routes
-  (route/expand-routes
-   #{["/bookmark/new" :get new-bookmark]}))
+   [io.pedestal.test :as test]
+   [bookmarks]
+   [routes]))
 
 (def server (atom nil))
 
 (def service-map
-  {::http/routes routes
+  {::http/routes routes/routes
    ::http/type   :jetty
    ::http/port   8890})
 
