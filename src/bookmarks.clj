@@ -27,4 +27,4 @@
 
 (defn create-bookmark
   [request]
-  (response/created))
+  (response/created "created"))
