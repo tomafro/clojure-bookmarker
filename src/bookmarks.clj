@@ -28,3 +28,10 @@
 (defn create-bookmark
   [request]
   (response/created "created"))
+
+(defn routes
+  ([] (routes "bookmarks"))
+  ([name]
+   [[[(str "/" name) {:post 'bookmarks/create-bookmark}
+      ["/new" {:get 'bookmarks/new-bookmark}]
+      ["/:bookmark-id" {:get 'bookmarks/new-or-show-bookmark}]]]]))
