@@ -16,4 +16,7 @@
  :aliases
  {:test
   {:extra-deps
-   {lambdaisland/kaocha {:mvn/version "0.0-554"}}}}}
+   {lambdaisland/kaocha {:mvn/version "0.0-554"}}}
+  :rebel
+  {:extra-deps {com.bhauman/rebel-readline {:mvn/version "0.1.4"}}
+   :main-opts  ["-m" "rebel-readline.main"]}}}
