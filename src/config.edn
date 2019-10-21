@@ -1,2 +1,2 @@
-{:database #profile {:default "jdbc:postgresql:bookmarker_development"
-                     :test "jdbc:postgresql:bookmarker_test"}}
+{:database #or [#env DATABASE_URI #profile {:dev  "jdbc:postgresql:bookmarker_dev"
+                                            :test "jdbc:postgresql:bookmarker_test"}]}
