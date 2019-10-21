@@ -1,0 +1,2 @@
+{:database #profile {:default "jdbc:postgresql:bookmarker_development"
+                     :test "jdbc:postgresql:bookmarker_test"}}

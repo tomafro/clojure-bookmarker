@@ -6,7 +6,6 @@
   []
   (html [:div "hello world"]))
 
-
 (defn show-bookmark
   []
   (html [:div "show-bookmark"]))

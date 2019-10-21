@@ -1,5 +1,6 @@
 (ns main
   (:require
+   [aero.core :refer (read-config)]
    [io.pedestal.http :as http]
    [io.pedestal.http.route :as route]
    [io.pedestal.test :as test]

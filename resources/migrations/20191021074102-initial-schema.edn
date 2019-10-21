@@ -1,0 +1,8 @@
+{:up   ["CREATE TABLE bookmarks (
+  id BIGSERIAL,
+  title TEXT,
+  url TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);"]
+ :down ["DROP TABLE bookmarks;"]}
