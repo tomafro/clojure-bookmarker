@@ -21,9 +21,13 @@
   [request]
   (response/created "created"))
 
+(defn index-bookmarks
+  [request]
+  (response/ok "LIST"))
+
 (defn routes
   ([] (routes "bookmarks"))
   ([name]
-   [[[(str "/" name) {:post 'bookmarks/create-bookmark}
+   [[[(str "/" name) {:get 'bookmarks/index-bookmarks :post 'bookmarks/create-bookmark}
       ["/new" {:get 'bookmarks/new-bookmark}]
       ["/:bookmark-id" {:get 'bookmarks/new-or-show-bookmark}]]]]))
