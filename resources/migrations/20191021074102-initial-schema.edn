@@ -1,5 +1,5 @@
 {:up   ["CREATE TABLE bookmarks (
-  id BIGSERIAL,
+  id SERIAL PRIMARY KEY,
   title TEXT,
   url TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
