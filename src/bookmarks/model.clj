@@ -7,7 +7,7 @@
    [ragtime.repl]
    [honeysql.core :as sql]))
 
-(def db (jdbc/get-datasource (:database config/config)))
+(def ds (jdbc/get-datasource (:database config/config)))
 
 (defn ragtime-config
   []
@@ -24,18 +24,21 @@
 
 (defn select-one
   [sql]
-  (jdbc/execute-one! db (sql/format sql :namespace-as-table? true)))
+  (jdbc/execute-one! ds (sql/format sql :namespace-as-table? true)))
+
+(defn find-bookmark
+  [id]
+  (select-one
+   (sql/build :select :* :from :bookmarks :where [:= :bookmarks/id id])))
 
 (defn as-kebab-maps [rs opts]
   (let [kebab #(clojure.string/replace % #"_" "-")]
     (result-set/as-modified-maps rs (assoc opts :qualifier-fn kebab :label-fn kebab))))
 
-(defn find
-  [id & ids]
-  )
+(defn bookmark-find-by
+  [& {:as conditions}]
+  (next.jdbc.sql/find-by-keys ds :bookmarks conditions {:builder-fn as-kebab-maps}))
 
-(defn find-by
-  [& {:as conditions}])
-
-(defn find-all-by
-  [& {:as conditions}])
+(defn bookmark-find-all
+  [& {:as conditions}]
+  (next.jdbc.sql/find-by-keys ds :bookmarks conditions {:builder-fn as-kebab-maps}))
