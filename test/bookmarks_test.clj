@@ -24,4 +24,4 @@
   (is (= "<div>show-bookmark</div>" (:body (http-get "/bookmarks/abcd1234")))))
 
 (deftest index-bookmarks-test
-  (is (= "<div>bookmarks</div>" (:body (http-get "/bookmarks")))))
+  (is (= "LIST" (:body (http-get "/bookmarks")))))
