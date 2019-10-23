@@ -1,4 +1,5 @@
 (ns database
+  (:refer-clojure :exclude [find])
   (:require
    [config]
    [next.jdbc :as jdbc]
