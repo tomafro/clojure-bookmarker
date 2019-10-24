@@ -21,11 +21,6 @@
              #(vec (->> %
                         (cons (interceptor/on-response add-x-request-id))))))
 
-  ; (update-in service [::http/interceptors]
-  ;            #(vec (->> %
-  ;                       (cons cors/dev-allow-origin)
-  ;                       (cons servlet-interceptor/exception-debug)))))
-
 (def service-map
   (-> {::http/routes routes/routes
        ::http/type   :jetty
