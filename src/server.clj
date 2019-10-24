@@ -1,4 +1,4 @@
-(ns main
+(ns server
   (:require
    [aero.core :refer (read-config)]
    [io.pedestal.http :as http]
@@ -6,8 +6,6 @@
    [io.pedestal.interceptor.helpers :as interceptor]
    [io.pedestal.test :as test]
    [routes]))
-
-(def server (atom nil))
 
 (defn uuid [] (.toString (java.util.UUID/randomUUID)))
 
@@ -21,6 +19,8 @@
              #(vec (->> %
                         (cons (interceptor/on-response add-x-request-id))))))
 
+(def server (atom nil))
+
 (def service-map
   (-> {::http/routes routes/routes
        ::http/type   :jetty
@@ -29,13 +29,16 @@
       (http/default-interceptors)
       (app-interceptors)))
 
-(defn start-dev []
+(defn start
+  []
   (reset! server
           (http/start (http/create-server service-map))))
 
-(defn stop-dev []
+(defn stop
+  []
   (http/stop @server))
 
-(defn restart []
-  (stop-dev)
-  (start-dev))
+(defn restart
+  []
+  (stop)
+  (start))

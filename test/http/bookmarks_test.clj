@@ -2,12 +2,12 @@
   (:require [clojure.test :refer :all]
             [io.pedestal.test :refer :all]
             [io.pedestal.http :as http]
-            [main]
+            [server]
             [routes :refer [url-for]]
             [http.bookmarks]))
 
 (def service
-  (::http/service-fn (http/create-servlet main/service-map)))
+  (::http/service-fn (http/create-servlet server/service-map)))
 
 (def http-get
   (partial response-for service :get))
