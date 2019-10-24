@@ -1,8 +1,9 @@
-(ns bookmarks
+(ns bookmarks.http
   (:require
    [bookmarks.views :as views]
    [database]
    [response]))
+
 
 (defn new-bookmark
   [request]
@@ -32,6 +33,5 @@
 (defn routes
   ([] (routes "bookmarks"))
   ([name]
-   [[[(str "/" name) {:get 'bookmarks/index-bookmarks :post 'bookmarks/create-bookmark}
-      ["/new" {:get 'bookmarks/new-bookmark}]
-      ["/:bookmark-id" {:get 'bookmarks/new-or-show-bookmark}]]]]))
+   [[[(str "/" name) {:get 'bookmarks.http/index-bookmarks :post 'bookmarks.http/create-bookmark}
+      ["/:bookmark-id" {:get 'bookmarks.http/new-or-show-bookmark}]]]]))

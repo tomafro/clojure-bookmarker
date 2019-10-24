@@ -4,7 +4,6 @@
    [io.pedestal.http :as http]
    [io.pedestal.http.route :as route]
    [io.pedestal.test :as test]
-   [bookmarks]
    [routes]))
 
 (def server (atom nil))

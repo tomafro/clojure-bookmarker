@@ -1,9 +1,9 @@
-(ns bookmarks-test
+(ns bookmarks.http-test
   (:require [clojure.test :refer :all]
             [io.pedestal.test :refer :all]
             [io.pedestal.http :as http]
             [main]
-            [bookmarks]))
+            [bookmarks.http]))
 
 (def service
   (::http/service-fn (http/create-servlet main/service-map)))
