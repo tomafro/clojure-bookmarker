@@ -1,4 +1,4 @@
-(ns bookmarks.views
+(ns views.bookmarks
   (:require
    [hiccup.core :refer [html h]]))
 

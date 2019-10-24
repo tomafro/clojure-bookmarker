@@ -2,6 +2,6 @@
   (:require
    [io.pedestal.http.route :as route]
    [response]
-   [bookmarks.http]))
+   [http.bookmarks]))
 
-(def routes (bookmarks.http/routes))
+(def routes (http.bookmarks/routes))
