@@ -21,7 +21,9 @@
   (is (= "created" (:body (http-post "/bookmarks")))))
 
 (deftest show-bookmark-test
-  (is (= "<div>show-bookmark</div>" (:body (http-get "/bookmarks/abcd1234")))))
+  (testing "missing bookmark"
+    (let [response (http-get "/bookmarks/1234")]
+      (is (= 404 (:status response))))))
 
 (deftest index-bookmarks-test
   (is (= "LIST" (:body (http-get "/bookmarks")))))
