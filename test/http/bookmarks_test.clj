@@ -3,6 +3,7 @@
             [io.pedestal.test :refer :all]
             [io.pedestal.http :as http]
             [main]
+            [routes :refer [url-for]]
             [http.bookmarks]))
 
 (def service
@@ -15,18 +16,18 @@
   (partial response-for service :post))
 
 (deftest new-bookmark-test
-  (is (= "<div>hello world</div>" (:body (http-get "/bookmarks/new")))))
+  (is (= "<div>hello world</div>" (:body (http-get (url-for :bookmarks/new))))))
 
 (deftest create-bookmark-test
   (is (= "created" (:body (http-post "/bookmarks")))))
 
 (deftest show-bookmark-test
   (testing "missing bookmark"
-    (let [response (http-get "/bookmarks/1234")]
+    (let [response (http-get "/bookmark/1234")]
       (is (= 404 (:status response)))))
   (testing "existing bookmark"
     (let [bookmark (database/create-bookmark database/db {:bookmarks/title "Hello" :bookmarks/url "https://www.example.cm/url"})
-          response (http-get (str "/bookmarks/" (:bookmarks/id bookmark)))]
+          response (http-get (url-for :bookmark :params { :bookmark-id (:bookmarks/id bookmark)}))]
       (is (= 200 (:status response)))
       (is (= "<a href=\"https://www.example.cm/url\">Hello</a>" (:body response))))))
 

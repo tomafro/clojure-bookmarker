@@ -5,3 +5,6 @@
    [http.bookmarks]))
 
 (def routes (http.bookmarks/routes))
+
+(def url-for
+  (io.pedestal.http.route/url-for-routes routes))

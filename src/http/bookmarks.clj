@@ -2,7 +2,8 @@
   (:require
    [views.bookmarks :as views]
    [database]
-   [response]))
+   [response]
+   [io.pedestal.http.route :as route]))
 
 (defn new-bookmark
   [request]
@@ -15,12 +16,6 @@
       (response/ok (str "<a href=\"" (:bookmarks/url bookmark) "\">" (:bookmarks/title bookmark) "</a>"))
       (response/not-found "Not found"))))
 
-(defn new-or-show-bookmark
-  [request]
-  (if (= "new" (get-in request [:path-params :bookmark-id]))
-    (new-bookmark request)
-    (show-bookmark request)))
-
 (defn create-bookmark
   [request]
   (response/created "created"))
@@ -29,8 +24,12 @@
   [request]
   (response/ok "LIST"))
 
+(defn resource-routes
+  [name-singular name-plural])
+
 (defn routes
-  ([] (routes "bookmarks"))
-  ([name]
-   [[[(str "/" name) {:get 'http.bookmarks/index-bookmarks :post 'http.bookmarks/create-bookmark}
-      ["/:bookmark-id" {:get 'http.bookmarks/new-or-show-bookmark}]]]]))
+  []
+  (route/expand-routes
+   [[["/bookmarks" {:get [:bookmarks `index-bookmarks] :post `create-bookmark}
+      ["/new" {:get [:bookmarks/new `new-bookmark]}]]
+     ["/bookmark/:bookmark-id" {:get [:bookmark `show-bookmark]}]]]))
