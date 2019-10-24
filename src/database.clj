@@ -41,6 +41,6 @@
 
 (defn create-bookmark
   [db values]
-  {:pre  [(s/valid? (s/keys :req-un [:bookmarks/url :bookmarks/title]) values)]
+  {:pre  [(s/valid? (s/keys :req [:bookmarks/url :bookmarks/title]) values)]
    :post [(or (nil? %) (s/valid? :bookmarks/bookmark %))]}
   (sql/insert! db :bookmarks values {:builder-fn as-kebab-maps}))

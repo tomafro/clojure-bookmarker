@@ -23,7 +23,12 @@
 (deftest show-bookmark-test
   (testing "missing bookmark"
     (let [response (http-get "/bookmarks/1234")]
-      (is (= 404 (:status response))))))
+      (is (= 404 (:status response)))))
+  (testing "existing bookmark"
+    (let [bookmark (database/create-bookmark database/db {:bookmarks/title "Hello" :bookmarks/url "https://www.example.cm/url"})
+          response (http-get (str "/bookmarks/" (:bookmarks/id bookmark)))]
+      (is (= 200 (:status response)))
+      (is (= "<a href=\"https://www.example.cm/url\">Hello</a>" (:body response))))))
 
 (deftest index-bookmarks-test
   (is (= "LIST" (:body (http-get "/bookmarks")))))

@@ -13,7 +13,7 @@
   [request]
   (let [bookmark-id (get-in request [:path-params :bookmark-id])]
     (if-let [bookmark (database/find-bookmark database/db (Integer/parseInt bookmark-id))]
-      (response/ok bookmark-id)
+      (response/ok (str "<a href=\"" (:bookmarks/url bookmark) "\">" (:bookmarks/title bookmark) "</a>"))
       (response/not-found "Not found"))))
 
 (defn new-or-show-bookmark
