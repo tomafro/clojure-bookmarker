@@ -9,6 +9,12 @@
 
 (defn uuid [] (.toString (java.util.UUID/randomUUID)))
 
+(def x-request-id
+  (interceptor/around
+    ::x-request-id 
+    (fn [context] (assoc-in context [:request :headers "X-Request-Id"] (uuid)))
+    (fn [context] (assoc-in context [:response :headers "X-Request-Id"] (get-in context [:request :headers "X-Request-Id"])))))
+
 (defn add-x-request-id
   [response]
   (assoc response :headers (assoc (:headers response) "X-Request-Id" (uuid))))
