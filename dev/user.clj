@@ -7,7 +7,6 @@
 (def refresh
   clojure.tools.namespace.repl/refresh)
 
-(require 'dev)
-
-; (def url-for
-;   (io.pedestal.http.route/url-for-routes routes/routes))
+(defn repl
+  []
+  (in-ns 'repl))
