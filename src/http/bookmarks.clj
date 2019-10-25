@@ -29,7 +29,6 @@
 
 (defn routes
   []
-  (route/expand-routes
-   [[["/bookmarks" {:get [:bookmarks `index-bookmarks] :post [:bookmarks/create `create-bookmark]}
-      ["/new" {:get [:bookmarks/new `new-bookmark]}]]
-     ["/bookmark/:bookmark-id" {:get [:bookmark `show-bookmark]}]]]))
+  [["/bookmarks" {:get [:bookmarks `index-bookmarks] :post [:bookmarks/create `create-bookmark]}
+     ["/new" {:get [:bookmarks/new `new-bookmark]}]]
+    ["/bookmark/:bookmark-id" {:get [:bookmark `show-bookmark]}]])

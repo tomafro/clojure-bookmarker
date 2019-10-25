@@ -8,7 +8,4 @@
 
 (defn show-routes
   []
-  (route/print-routes routes/routes))
-
-(def url-for
-  (route/url-for-routes routes/routes))
+  (route/print-routes (route/expand-routes routes/routes)))

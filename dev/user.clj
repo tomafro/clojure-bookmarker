@@ -9,4 +9,5 @@
 
 (defn repl
   []
+  (require 'repl)
   (in-ns 'repl))

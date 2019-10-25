@@ -4,7 +4,9 @@
    [response]
    [http.bookmarks]))
 
-(def routes (http.bookmarks/routes))
+(def routes
+  [(concat []
+          (http.bookmarks/routes))])
 
 (def url-for
-  (io.pedestal.http.route/url-for-routes routes))
+  (io.pedestal.http.route/url-for-routes (route/expand-routes routes)))
