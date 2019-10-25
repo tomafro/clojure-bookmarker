@@ -3,7 +3,10 @@
    [aero.core :refer (read-config)]))
 
 (def env
-  (keyword (or (System/getenv "ENV") :dev)))
+  (keyword (System/getProperty "app.env" "dev")))
+
+(def repl?
+  (= "true" (System/getProperty "app.repl")))
 
 (defn load-config
   ([] (load-config env))
