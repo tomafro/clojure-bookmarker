@@ -31,7 +31,12 @@
     string?
     url-gen))
 
-(s/def :db/serial (s/int-in 1 2147483647))
+(s/def :db/connectable any?)
+
+(s/def :db/serial    (s/int-in 1 2147483647))
+(s/def :db/bigserial (s/int-in 1 9223372036854775807))
+
+(s/def :db/attributes (s/map-of keyword? any?))
 
 (s/def :bookmarks/id :db/serial)
 (s/def :bookmarks/title non-empty-string)

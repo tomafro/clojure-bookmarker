@@ -33,14 +33,26 @@
   (let [kebab #(clojure.string/replace % #"_" "-")]
     (result-set/as-modified-maps rs (assoc opts :qualifier-fn kebab :label-fn kebab))))
 
+(defn find-by-id
+  [db table id]
+  {:pre  [(s/valid? :db/bigserial id)]
+   :post [(s/valid? (s/nilable (s/map-of keyword? any?)) %)]}
+  (sql/get-by-id db table id {:builder-fn as-kebab-maps}))
+
+
 (defn find-bookmark
   [db id]
   {:pre  [(s/valid? :bookmarks/id id)]
-   :post [(or (nil? %) (s/valid? :bookmarks/bookmark %))]}
-  (sql/get-by-id db :bookmarks id {:builder-fn as-kebab-maps}))
+   :post [(s/valid? (s/nilable :bookmarks/bookmark) %)]}
+  (find-by-id db :bookmarks id))
 
 (defn create-bookmark
   [db values]
-  {:pre  [(s/valid? (s/keys :req [:bookmarks/url :bookmarks/title]) values)]
-   :post [(or (nil? %) (s/valid? :bookmarks/bookmark %))]}
   (sql/insert! db :bookmarks values {:builder-fn as-kebab-maps}))
+
+(s/fdef create-bookmark
+  :args (s/cat :db :db/connectable
+               :values (s/keys :req [:bookmarks/url :bookmarks/title]))
+  :ret (s/nilable :bookmarks/bookmark))
+
+;;(stest/check 'database/create-bookmark {:gen {:db/connectable #(gen/return database/db)}})
