@@ -42,9 +42,12 @@
 
 (defn find-bookmark
   [db id]
-  {:pre  [(s/valid? :bookmarks/id id)]
-   :post [(s/valid? (s/nilable :bookmarks/bookmark) %)]}
   (find-by-id db :bookmarks id))
+
+(s/fdef find-bookmark
+  :args (s/cat :db :db/connectable
+               :id :bookmarks/id)
+  :ret (s/nilable :bookmarks/bookmark))
 
 (defn create-bookmark
   [db values]
@@ -53,6 +56,6 @@
 (s/fdef create-bookmark
   :args (s/cat :db :db/connectable
                :values (s/keys :req [:bookmarks/url :bookmarks/title]))
-  :ret (s/nilable :bookmarks/bookmark))
+  :ret :bookmarks/bookmark)
 
 ;;(stest/check 'database/create-bookmark {:gen {:db/connectable #(gen/return database/db)}})
