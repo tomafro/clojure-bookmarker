@@ -14,7 +14,7 @@
   (interceptor/around
    ::x-request-id
    (fn [context]
-     (assoc-in context [:request  :headers "x-request-id"] (get-in context [:request :headers "x-request-id"] (uuid))))
+     (update-in context [:request  :headers "x-request-id"] #(or % (uuid))))
    (fn [context]
      (assoc-in context [:response :headers "X-Request-Id"] (get-in context [:request :headers "x-request-id"])))))
 
