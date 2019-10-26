@@ -16,7 +16,8 @@
    (fn [context]
      (update-in context [:request  :headers "x-request-id"] #(or % (uuid))))
    (fn [context]
-     (assoc-in context [:response :headers "X-Request-Id"] (get-in context [:request :headers "x-request-id"])))))
+     (->> (get-in context [:request :headers "x-request-id"])
+          (assoc-in context [:response :headers "X-Request-Id"])))))
 
 (def set-database-connection
   (interceptor/on-request
