@@ -5,21 +5,30 @@
    [io.pedestal.http.route :as route]
    [io.pedestal.interceptor.helpers :as interceptor]
    [io.pedestal.test :as test]
-   [routes]))
+   [routes]
+   [database]))
 
 (defn uuid [] (.toString (java.util.UUID/randomUUID)))
 
 (def x-request-id
   (interceptor/around
    ::x-request-id
-   (fn [context] (assoc-in context [:request  :headers "x-request-id"] (get-in context [:request :headers "x-request-id"] (uuid))))
-   (fn [context] (assoc-in context [:response :headers "X-Request-Id"] (get-in context [:request :headers "x-request-id"])))))
+   (fn [context]
+     (assoc-in context [:request  :headers "x-request-id"] (get-in context [:request :headers "x-request-id"] (uuid))))
+   (fn [context]
+     (assoc-in context [:response :headers "X-Request-Id"] (get-in context [:request :headers "x-request-id"])))))
 
+(def set-database-connection
+  (interceptor/on-request
+   ::set-database-connection
+   (fn [request] (assoc-in request [:bookmarker :db] database/db))))
+  
 (defn app-interceptors
   [service]
   (update-in service [::http/interceptors]
              #(vec (->> %
-                        (cons x-request-id)))))
+                        (cons x-request-id)
+                        (cons set-database-connection)))))
 
 (def server (atom nil))
 
