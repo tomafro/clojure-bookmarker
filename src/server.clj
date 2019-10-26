@@ -11,9 +11,9 @@
 
 (def x-request-id
   (interceptor/around
-    ::x-request-id 
-    (fn [context] (assoc-in context [:request  :headers "x-request-id"] (get-in context [:request :headers "x-request-id"] (uuid))))
-    (fn [context] (assoc-in context [:response :headers "X-Request-Id"] (get-in context [:request :headers "x-request-id"])))))
+   ::x-request-id
+   (fn [context] (assoc-in context [:request  :headers "x-request-id"] (get-in context [:request :headers "x-request-id"] (uuid))))
+   (fn [context] (assoc-in context [:response :headers "X-Request-Id"] (get-in context [:request :headers "x-request-id"])))))
 
 (defn app-interceptors
   [service]

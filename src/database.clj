@@ -39,7 +39,6 @@
    :post [(s/valid? (s/nilable (s/map-of keyword? any?)) %)]}
   (sql/get-by-id db table id {:builder-fn as-kebab-maps}))
 
-
 (defn find-bookmark
   [db id]
   (find-by-id db :bookmarks id))

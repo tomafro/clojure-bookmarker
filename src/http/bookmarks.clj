@@ -3,7 +3,14 @@
    [views.bookmarks :as views]
    [database]
    [response]
-   [io.pedestal.http.route :as route]))
+   [io.pedestal.interceptor.helpers :as interceptor]))
+
+(def find-bookmark
+  (interceptor/on-request
+   (fn [request]
+     (let [bookmark-id (get-in request [:path-params :bookmark-id])
+           bookmark (database/find-bookmark database/db (Integer/parseInt bookmark-id))]
+       (assoc-in request [:bookmarker :bookmark] bookmark)))))
 
 (defn new-bookmark
   [request]
@@ -11,10 +18,9 @@
 
 (defn show-bookmark
   [request]
-  (let [bookmark-id (get-in request [:path-params :bookmark-id])]
-    (if-let [bookmark (database/find-bookmark database/db (Integer/parseInt bookmark-id))]
+  (if-let [bookmark (get-in request [:bookmarker :bookmark])]
       (response/ok (str "<a href=\"" (:bookmarks/url bookmark) "\">" (:bookmarks/title bookmark) "</a>"))
-      (response/not-found "Not found"))))
+      (response/not-found "Not found")))
 
 (defn create-bookmark
   [request]
@@ -24,11 +30,8 @@
   [request]
   (response/ok "LIST"))
 
-(defn resource-routes
-  [name-singular name-plural])
-
 (defn routes
   []
   [["/bookmarks" {:get [:bookmarks `index-bookmarks] :post [:bookmarks/create `create-bookmark]}
      ["/new" {:get [:bookmarks/new `new-bookmark]}]]
-    ["/bookmark/:bookmark-id" {:get [:bookmark `show-bookmark]}]])
+    ["/bookmark/:bookmark-id" ^:interceptors [find-bookmark] {:get [:bookmark `show-bookmark]}]])
