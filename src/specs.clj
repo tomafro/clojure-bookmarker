@@ -6,6 +6,10 @@
 (def non-empty-string
   (s/and string? not-empty))
 
+(s/def :postgres/smallint (s/int-in -32768 32767))
+(s/def :postgres/integer (s/int-in -2147483648 2147483647))
+(s/def :postgres/bigint (s/int-in -9223372036854775808 9223372036854775807))
+
 (s/def :url/scheme #{"http" "https"})
 (s/def :url/user non-empty-string)
 (s/def :url/password non-empty-string)

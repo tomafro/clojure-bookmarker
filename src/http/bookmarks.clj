@@ -25,6 +25,7 @@
 
 (defn create-bookmark
   [request]
+  (prn request)
   (response/created "created"))
 
 (defn index-bookmarks

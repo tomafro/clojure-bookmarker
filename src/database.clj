@@ -11,7 +11,7 @@
    [clojure.spec.alpha :as s]
    [specs]))
 
-(def db (jdbc/get-datasource (:database config/config)))
+(def ^:dynamic db (jdbc/get-datasource (:database config/config)))
 
 (defn ragtime-config
   ([] (ragtime-config config/env))
@@ -56,5 +56,15 @@
   :args (s/cat :db :db/connectable
                :values (s/keys :req [:bookmarks/url :bookmarks/title]))
   :ret :bookmarks/bookmark)
+
+(defn count-bookmarks
+  [db]
+  (:count (first (sql/query db ["SELECT COUNT(*) FROM bookmarks"]))))
+
+
+(s/fdef create-bookmark
+  :args (s/cat :db :db/connectable)
+  :ret  :postgres/bigint)
+
 
 ;;(stest/check 'database/create-bookmark {:gen {:db/connectable #(gen/return database/db)}})

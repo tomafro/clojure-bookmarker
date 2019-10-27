@@ -2,6 +2,7 @@
   (:require
    [aero.core :refer (read-config)]
    [io.pedestal.http :as http]
+   [io.pedestal.http.body-params]
    [io.pedestal.http.route :as route]
    [io.pedestal.interceptor.helpers :as interceptor]
    [io.pedestal.test :as test]
@@ -29,7 +30,8 @@
   (update-in service [::http/interceptors]
              #(vec (->> %
                         (cons x-request-id)
-                        (cons set-database-connection)))))
+                        (cons set-database-connection)
+                        (cons (io.pedestal.http.body-params/body-params))))))
 
 (def server (atom nil))
 

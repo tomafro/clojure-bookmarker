@@ -22,6 +22,7 @@
  {:dev
   {:extra-paths ["dev"]
    :extra-deps {org.clojure/test.check {:mvn/version "0.9.0"}
+                io.pedestal/pedestal.service-tools {:mvn/version "0.5.7"}
                 org.clojure/tools.namespace {:mvn/version "0.3.1"}}
    :jvm-opts   ["-Dapp.env=dev"]}
   :test
