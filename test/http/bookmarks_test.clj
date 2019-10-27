@@ -30,14 +30,14 @@
   (testing "successful create"
     (let [response (http-post "/bookmarks", :params { "bookmarks/title" "My Blog" "bookmarks/url" "https://tomafro.net" })]
       (is (= "created" (:body response)))
-      (is (= 1 (database/count-bookmarks database/db))))))
+      (is (= 1 (database/count-bookmarks))))))
     
 (deftest show-bookmark-test
   (testing "missing bookmark"
     (let [response (http-get "/bookmark/1234")]
       (is (= 404 (:status response)))))
   (testing "existing bookmark"
-    (let [bookmark (database/create-bookmark database/db {:bookmarks/title "Hello" :bookmarks/url "https://www.example.cm/url"})
+    (let [bookmark (database/create-bookmark {:bookmarks/title "Hello" :bookmarks/url "https://www.example.cm/url"})
           response (http-get (url-for :bookmark :params {:bookmark-id (:bookmarks/id bookmark)}))]
       (is (= 200 (:status response)))
       (is (= "<a href=\"https://www.example.cm/url\">Hello</a>" (:body response))))))

@@ -21,9 +21,9 @@
           (assoc-in context [:response :headers "X-Request-Id"])))))
 
 (def set-database-connection
-  (interceptor/on-request
+  (interceptor/before
    ::set-database-connection
-   (fn [request] (assoc-in request [:bookmarker :db] database/db))))
+   (fn [context] (assoc-in context [:bindings #'database/db] database/db))))
   
 (defn app-interceptors
   [service]

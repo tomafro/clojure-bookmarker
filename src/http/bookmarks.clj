@@ -8,10 +8,9 @@
 (def find-bookmark
   (interceptor/on-request
    (fn [request]
-     (let [db (get-in request [:bookmarker :db])
-           bookmark-id (get-in request [:path-params :bookmark-id])
-           bookmark (database/find-bookmark db (Integer/parseInt bookmark-id))]
-       (assoc-in request [:bookmarker :bookmark] bookmark)))))
+     (let [bookmark-id (get-in request [:path-params :bookmark-id])]
+       (assoc-in request [:bookmarker :bookmark]
+                 (database/find-bookmark (Integer/parseInt bookmark-id)))))))
 
 (defn new-bookmark
   [request]
@@ -25,7 +24,6 @@
 
 (defn create-bookmark
   [request]
-  (prn request)
   (response/created "created"))
 
 (defn index-bookmarks
