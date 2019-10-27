@@ -5,7 +5,9 @@
             [next.jdbc :as jdbc]
             [server]
             [routes :refer [url-for]]
-            [http.bookmarks]))
+            [http.bookmarks]
+            [database]
+            [db.bookmarks]))
 
 (defn run-within-transaction [test]
   (jdbc/with-transaction [tx database/db {:rollback-only true}]
@@ -30,14 +32,14 @@
   (testing "successful create"
     (let [response (http-post "/bookmarks", :params { "bookmarks/title" "My Blog" "bookmarks/url" "https://tomafro.net" })]
       (is (= "created" (:body response)))
-      (is (= 1 (database/count-bookmarks))))))
+      (is (= 1 (db.bookmarks/count))))))
     
 (deftest show-bookmark-test
   (testing "missing bookmark"
     (let [response (http-get "/bookmark/1234")]
       (is (= 404 (:status response)))))
   (testing "existing bookmark"
-    (let [bookmark (database/create-bookmark {:bookmarks/title "Hello" :bookmarks/url "https://www.example.cm/url"})
+    (let [bookmark (db.bookmarks/create {:bookmarks/title "Hello" :bookmarks/url "https://www.example.cm/url"})
           response (http-get (url-for :bookmark :params {:bookmark-id (:bookmarks/id bookmark)}))]
       (is (= 200 (:status response)))
       (is (= "<a href=\"https://www.example.cm/url\">Hello</a>" (:body response))))))

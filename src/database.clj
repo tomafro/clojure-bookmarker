@@ -37,32 +37,8 @@
   [db table id]
   (sql/get-by-id db table id {:builder-fn as-kebab-maps}))
 
-(s/fdef find-bookmark
+(s/fdef find-by-id
   :args (s/cat :id :db/bigserial)
   :ret (s/nilable (s/map-of keyword? any?)))
-
-(defn find-bookmark
-  [id]
-  (find-by-id database/db :bookmarks id))
-
-(s/fdef find-bookmark
-  :args (s/cat :id :bookmarks/id)
-  :ret (s/nilable :bookmarks/bookmark))
-
-(defn create-bookmark
-  [values]
-  (sql/insert! database/db :bookmarks values {:builder-fn as-kebab-maps}))
-
-(s/fdef create-bookmark
-  :args (s/cat :values (s/keys :req [:bookmarks/url :bookmarks/title]))
-  :ret :bookmarks/bookmark)
-
-(defn count-bookmarks
-  []
-  (:count (first (sql/query database/db ["SELECT COUNT(*) FROM bookmarks"]))))
-
-(s/fdef count-bookmarks
-  :ret  :postgres/bigint)
-
 
 ;;(stest/check 'database/create-bookmark {:gen {:db/connectable #(gen/return database/db)}})
