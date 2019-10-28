@@ -30,7 +30,7 @@
 
 (deftest create-bookmark-test
   (testing "successful create"
-    (let [response (http-post "/bookmarks", :params { "bookmarks/title" "My Blog" "bookmarks/url" "https://tomafro.net" })]
+    (let [response (http-post "/bookmarks")]
       (is (= "created" (:body response)))
       (is (= 1 (db.bookmarks/count))))))
     
@@ -39,7 +39,7 @@
     (let [response (http-get "/bookmark/1234")]
       (is (= 404 (:status response)))))
   (testing "existing bookmark"
-    (let [bookmark (db.bookmarks/create {:bookmarks/title "Hello" :bookmarks/url "https://www.example.cm/url"})
+    (let [bookmark (db.bookmarks/create #:bookmarks{:title "Hello" :url "https://www.example.cm/url"})
           response (http-get (url-for :bookmark :params {:bookmark-id (:bookmarks/id bookmark)}))]
       (is (= 200 (:status response)))
       (is (= "<a href=\"https://www.example.cm/url\">Hello</a>" (:body response))))))

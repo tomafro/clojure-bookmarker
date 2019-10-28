@@ -9,6 +9,7 @@
    [routes]
    [database]))
 
+
 (defn uuid [] (.toString (java.util.UUID/randomUUID)))
 
 (def x-request-id
@@ -44,9 +45,10 @@
       (app-interceptors)))
 
 (defn start
-  []
-  (reset! server
-          (http/start (http/create-server service-map))))
+  ([] (start service-map))
+  ([service-map]
+   (reset! server
+           (http/start (http/create-server service-map)))))
 
 (defn stop
   []

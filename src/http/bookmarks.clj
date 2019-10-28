@@ -18,7 +18,7 @@
 
 (defn create-bookmark
   [request]
-  (bookmarks/create {:bookmarks/url "https://tomafro.net" :bookmarks/title "Title"})
+  (bookmarks/create #:bookmarks{:url "https://tomafro.net" :title "Title"})
   (response/created "created"))
 
 (defn index-bookmarks
