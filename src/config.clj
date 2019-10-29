@@ -16,3 +16,7 @@
   (load-config))
 
 (prn config)
+
+(defn load
+  ([] (load-config env))
+  ([env] (assoc (read-config (clojure.java.io/resource "config.edn") {:profile env}) :env env)))

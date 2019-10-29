@@ -1,4 +1,4 @@
-(ns server
+(ns http
   (:require
    [aero.core :refer (read-config)]
    [clojure.walk]
@@ -8,8 +8,8 @@
    [io.pedestal.interceptor.helpers :as interceptor]
    [io.pedestal.test :as test]
    [routes]
-   [database]))
-
+   [database]
+   [com.stuartsierra.component :as component]))
 
 (defn uuid [] (.toString (java.util.UUID/randomUUID)))
 
@@ -43,8 +43,6 @@
                         (cons set-database-connection)
                         (cons (io.pedestal.http.body-params/body-params))))))
 
-(def server (atom nil))
-
 (def service-map
   (-> {::http/routes routes/routes
        ::http/type   :jetty
@@ -53,17 +51,17 @@
       (http/default-interceptors)
       (app-interceptors)))
 
-(defn start
-  ([] (start service-map))
-  ([service-map]
-   (reset! server
-           (http/start (http/create-server service-map)))))
+(defrecord Server [server]
+  component/Lifecycle
 
-(defn stop
-  []
-  (http/stop @server))
+  (start [component]
+    (println (format "Starting http server"))
+    (let [server (http/start (http/create-server service-map))]
+      (assoc component :server server)))
 
-(defn restart
-  []
-  (stop)
-  (start))
+  (stop [component]
+    (http/stop server)
+    (assoc component :server nil)))
+
+(defn server [config]
+  (map->Server {}))
