@@ -1,6 +1,7 @@
 (ns server
   (:require
    [aero.core :refer (read-config)]
+   [clojure.walk]
    [io.pedestal.http :as http]
    [io.pedestal.http.body-params]
    [io.pedestal.http.route :as route]
@@ -25,11 +26,19 @@
   (interceptor/before
    ::set-database-connection
    (fn [context] (assoc-in context [:bindings #'database/db] database/db))))
+
+(def keywordize-params
+  (interceptor/on-request
+   ::keywordize-params
+   (fn [request]
+     (prn request)
+     (assoc-in request [:params] (clojure.walk/keywordize-keys (:params request))))))
   
 (defn app-interceptors
   [service]
   (update-in service [::http/interceptors]
              #(vec (->> %
+                        (cons keywordize-params)
                         (cons x-request-id)
                         (cons set-database-connection)
                         (cons (io.pedestal.http.body-params/body-params))))))
