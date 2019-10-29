@@ -1,14 +1,14 @@
-(ns http.bookmarks
+(ns bookmarks.http
   (:require
-   [views.bookmarks :as views]
+   [bookmarks.views]
    [database]
    [response]
-   [db.bookmarks :as bookmarks]
+   [bookmarks.db]
    [io.pedestal.interceptor.helpers :as interceptor]))
 
 (defn new-bookmark
   [request]
-  (response/ok (views/new-bookmark)))
+  (response/ok (bookmarks.views/new-bookmark)))
 
 (defn show-bookmark
   [request]
@@ -18,7 +18,7 @@
 
 (defn create-bookmark
   [request]
-  (bookmarks/create #:bookmarks{:url "https://tomafro.net" :title "Title"})
+  (bookmarks.db/create #:bookmarks{:url "https://tomafro.net" :title "Title"})
   (response/created "created"))
 
 (defn index-bookmarks
@@ -30,7 +30,7 @@
    (fn [request]
      (let [bookmark-id (get-in request [:path-params :bookmark-id])]
        (assoc-in request [:bookmarker :bookmark]
-                 (bookmarks/find (Integer/parseInt bookmark-id)))))))
+                 (bookmarks.db/find (Integer/parseInt bookmark-id)))))))
 
 (defn routes
   []

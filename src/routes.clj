@@ -2,12 +2,12 @@
   (:require
    [io.pedestal.http.route :as route]
    [response]
-   [http.bookmarks]
+   [bookmarks.http]
    [echo]))
 
 (def routes
   [(concat []
-          (http.bookmarks/routes)
+          (bookmarks.http/routes)
           (echo/routes))])
 
 (def url-for

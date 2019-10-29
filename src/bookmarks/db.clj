@@ -1,4 +1,4 @@
-(ns db.bookmarks
+(ns bookmarks.db
   (:refer-clojure :exclude [find count])
   (:require
    [database]

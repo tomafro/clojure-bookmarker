@@ -1,13 +1,13 @@
-(ns http.bookmarks-test
+(ns bookmarks.http-test
   (:require [clojure.test :refer :all]
             [io.pedestal.test :refer :all]
             [io.pedestal.http :as http]
             [next.jdbc :as jdbc]
             [server]
             [routes :refer [url-for]]
-            [http.bookmarks]
+            [bookmarks.http]
             [database]
-            [db.bookmarks]))
+            [bookmarks.db]))
 
 (defn run-within-transaction [test]
   (jdbc/with-transaction [tx database/db {:rollback-only true}]
@@ -32,14 +32,14 @@
   (testing "successful create"
     (let [response (http-post "/bookmarks")]
       (is (= "created" (:body response)))
-      (is (= 1 (db.bookmarks/count))))))
+      (is (= 1 (bookmarks.db/count))))))
     
 (deftest show-bookmark-test
   (testing "missing bookmark"
     (let [response (http-get "/bookmark/1234")]
       (is (= 404 (:status response)))))
   (testing "existing bookmark"
-    (let [bookmark (db.bookmarks/create #:bookmarks{:title "Hello" :url "https://www.example.cm/url"})
+    (let [bookmark (bookmarks.db/create #:bookmarks{:title "Hello" :url "https://www.example.cm/url"})
           response (http-get (url-for :bookmark :params {:bookmark-id (:bookmarks/id bookmark)}))]
       (is (= 200 (:status response)))
       (is (= "<a href=\"https://www.example.cm/url\">Hello</a>" (:body response))))))
