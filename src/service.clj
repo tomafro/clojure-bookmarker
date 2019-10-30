@@ -15,15 +15,12 @@
   (stop [component]
     (assoc component :datasource nil)))
 
-(defn new-database [url]
-  (map->Database {:url url}))
-
 (defn system [config]
   (let [{:keys [database]} config]
     (component/system-map
-     :database (new-database database)
+     :database (->Database database nil)
      :http (component/using
-           (http/server config)
+           (http/->Server nil)
            [:database]))))
 
 (defn start []

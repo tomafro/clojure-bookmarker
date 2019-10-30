@@ -1,9 +1,9 @@
-(ns server-test
+(ns http-test
   (:refer-clojure :exclude [uuid?])
   (:require [clojure.test :refer :all]
             [io.pedestal.test :refer :all]
             [io.pedestal.http :as http]
-            [server]
+            [http :as server]
             [response]))
 
 (defn request-id

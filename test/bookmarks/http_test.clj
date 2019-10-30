@@ -3,7 +3,7 @@
             [io.pedestal.test :refer :all]
             [io.pedestal.http :as http]
             [next.jdbc :as jdbc]
-            [server]
+            [http :as server]
             [routes :refer [url-for]]
             [bookmarks.http]
             [database]

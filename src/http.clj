@@ -62,6 +62,3 @@
   (stop [component]
     (http/stop server)
     (assoc component :server nil)))
-
-(defn server [config]
-  (map->Server {}))
