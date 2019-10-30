@@ -3,7 +3,6 @@
   (:require
    [database]
    [next.jdbc.sql :as sql]
-   [next.jdbc.result-set :as result-set]
    [clojure.spec.alpha :as s]
    [specs]))
 
