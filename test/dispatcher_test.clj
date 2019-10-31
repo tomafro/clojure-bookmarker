@@ -1,12 +1,18 @@
 (ns dispatcher-test
   (:require [clojure.spec.alpha :as s]))
 
-; (defn first
+; (defn koala
 ;   [a b]
 ;   (prn [a b]))
 
-; (s/fdef first
+; (s/fdef koala
 ;   :args (s/cat :a :example/a :b :example/b))
 
-; (s/form #'first)
+; (s/form #'koala)
+;; => Execution error (NullPointerException) at java.util.regex.Matcher/getTextLength (Matcher.java:1770).
+;;    null
+
+;; => Execution error (NullPointerException) at java.util.regex.Matcher/getTextLength (Matcher.java:1770).
+;;    null
+
 ;; => dispatcher.test/first

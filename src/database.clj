@@ -7,7 +7,6 @@
    [next.jdbc.result-set :as result-set]
    [ragtime.jdbc]
    [ragtime.repl]
-   [tick.alpha.api :as t]
    [clojure.spec.alpha :as s]
    [specs]))
 
@@ -41,4 +40,9 @@
   :args (s/cat :id :db/bigserial)
   :ret (s/nilable (s/map-of keyword? any?)))
 
-;;(stest/check 'database/create-bookmark {:gen {:db/connectable #(gen/return database/db)}})
+(defprotocol Repository
+  (find [this id]))
+
+(deftype DatabaseRepository [connection table]
+         Repository
+  (find [this id] sql/get-by-id connection table id))

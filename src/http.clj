@@ -55,8 +55,8 @@
   component/Lifecycle
 
   (start [component]
-    (println (format "Starting http server"))
-    (let [server (http/start (http/create-server service-map))]
+    (println (format "Starting http server %s" component))
+    (let [server (http/start (http/create-server (assoc service-map ::server component)))]
       (assoc component :server server)))
 
   (stop [component]

@@ -7,7 +7,7 @@
    [io.pedestal.interceptor.helpers :as interceptor]))
 
 (defn new-bookmark
-  [request]
+  [_]
   (response/ok (bookmarks.views/new-bookmark)))
 
 (defn show-bookmark
@@ -17,12 +17,12 @@
       (response/not-found "Not found")))
 
 (defn create-bookmark
-  [request]
+  [_]
   (bookmarks.db/create #:bookmarks{:url "https://tomafro.net" :title "Title"})
   (response/created "created"))
 
 (defn index-bookmarks
-  [request]
+  [_]
   (response/ok "LIST"))
 
 (def find-bookmark
