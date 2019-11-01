@@ -1,6 +1,6 @@
 (ns bookmarks.http-test
-  (:require [clojure.test :refer :all]
-            [io.pedestal.test :refer :all]
+  (:require [clojure.test :refer [deftest testing is use-fixtures]]
+            [io.pedestal.test :refer [response-for]]
             [io.pedestal.http :as http]
             [next.jdbc :as jdbc]
             [http :as server]

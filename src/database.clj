@@ -45,4 +45,4 @@
 
 (deftype DatabaseRepository [connection table]
          Repository
-  (find [this id] sql/get-by-id connection table id))
+  (find [this id] sql/get-by-id connection table id {:builder-fn as-kebab-maps}))
