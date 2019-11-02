@@ -1,6 +1,6 @@
 (ns bookmarks.http
   (:require
-   [bookmarks.views]
+   [bookmarks.views :refer [view]]
    [database]
    [response]
    [bookmarks.db]
@@ -8,12 +8,12 @@
 
 (defn new-bookmark
   [_]
-  (response/ok (bookmarks.views/new-bookmark)))
+  (response/ok (view "views/bookmarks/new.mustache")))
 
 (defn show-bookmark
   [request]
   (if-let [bookmark (get-in request [:bookmarker :bookmark])]
-      (response/ok (str "<a href=\"" (:bookmarks/url bookmark) "\">" (:bookmarks/title bookmark) "</a>"))
+      (response/ok (view "views/bookmarks/show.mustache" bookmark))
       (response/not-found "Not found")))
 
 (defn create-bookmark

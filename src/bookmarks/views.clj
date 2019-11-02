@@ -1,11 +1,9 @@
 (ns bookmarks.views
   (:require
-   [hiccup.core :refer [html h]]))
+   [clostache.parser :as clostache]))
 
-(defn new-bookmark
-  []
-  (html [:div "hello world"]))
-
-(defn show-bookmark
-  []
-  (html [:div "show-bookmark"]))
+(defn view
+  ([name] (view name {}))
+  ([name context]
+   (prn context)
+   (clostache/render-resource name context)))

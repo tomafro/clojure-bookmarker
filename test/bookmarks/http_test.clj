@@ -26,7 +26,7 @@
   (partial response-for service :post))
 
 (deftest new-bookmark-test
-  (is (= "<div>hello world</div>" (:body (http-get (url-for :bookmarks/new))))))
+  (is (= "<div>hello world</div>\n" (:body (http-get (url-for :bookmarks/new))))))
 
 (deftest create-bookmark-test
   (testing "successful create"
@@ -42,7 +42,7 @@
     (let [bookmark (bookmarks.db/create #:bookmarks{:title "Hello" :url "https://www.example.cm/url"})
           response (http-get (url-for :bookmark :params {:bookmark-id (:bookmarks/id bookmark)}))]
       (is (= 200 (:status response)))
-      (is (= "<a href=\"https://www.example.cm/url\">Hello</a>" (:body response))))))
+      (is (= "<a href=\"https://www.example.cm/url\">Hello</a>\n" (:body response))))))
 
 (deftest index-bookmarks-test
   (is (= "LIST" (:body (http-get "/bookmarks")))))
