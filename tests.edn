@@ -1,0 +1,4 @@
+#kaocha/v1 
+{:kaocha/reporter [kaocha.report/documentation]
+ :kaocha/plugins [:kaocha.plugin/notifier]
+ :kaocha/source-paths ["src" "resources"]}

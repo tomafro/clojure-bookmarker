@@ -31,7 +31,6 @@
   (interceptor/on-request
    ::keywordize-params
    (fn [request]
-     (prn request)
      (assoc-in request [:params] (clojure.walk/keywordize-keys (:params request))))))
   
 (defn app-interceptors

@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-ENV=test clojure -A:test -m kaocha.runner --reporter documentation "$@"
+ENV=test clojure -A:test -m kaocha.runner "$@"
