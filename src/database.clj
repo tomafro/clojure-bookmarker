@@ -1,5 +1,5 @@
 (ns database
-  (:refer-clojure :exclude [find])
+  (:refer-clojure :exclude [find count])
   (:require
    [config]
    [next.jdbc :as jdbc]
@@ -39,6 +39,13 @@
 (s/fdef find-by-id
   :args (s/cat :id :db/bigserial)
   :ret (s/nilable (s/map-of keyword? any?)))
+
+(defn count
+  [db table]
+  (:count (first (sql/query db [(str "SELECT COUNT(*) count FROM " (name table))]))))
+
+(s/fdef count
+  :ret  :postgres/bigint)
 
 (defprotocol Repository
   (find [this id]))

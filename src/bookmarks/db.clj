@@ -24,7 +24,7 @@
 
 (defn count
   []
-  (:count (first (sql/query database/db ["SELECT COUNT(*) FROM bookmarks"]))))
+  (database/count database/db :bookmarks))
 
 (s/fdef count
   :ret  :postgres/bigint)
