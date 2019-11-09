@@ -38,11 +38,19 @@
     (form-encode form)
     (:body options)))
 
+(defn url-from
+  [url]
+  (cond
+    (keyword? url) (url-for url)
+    (seqable? url) (apply url-for url)
+    :else url))
+
 (defn post-url
   [url & {:as options}]
   (let [headers (request-headers-from options)
-        body (request-body-from options)]
-    (response-for service :post (url-for url) :body body :headers headers)))
+        body (request-body-from options)
+        url  (url-from url)]
+    (response-for service :post url :body body :headers headers)))
 
 (defn get-url [url]
-  (response-for service :get (url-for url)))
+  (response-for service :get (url-from url)))

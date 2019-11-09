@@ -27,7 +27,7 @@
       (is (= 404 (:status response)))))
   (testing "existing bookmark"
     (let [bookmark (bookmarks.db/create #:bookmarks{:title "Hello" :url "https://www.example.cm/url"})
-          response (http/get (url-for :bookmark :params {:bookmark-id (:bookmarks/id bookmark)}))]
+          response (http/get-url [:bookmark :params {:bookmark-id (:bookmarks/id bookmark)}])]
       (is (= 200 (:status response)))
       (is (= "<a href=\"https://www.example.cm/url\">Hello</a>\n" (:body response))))))
 
