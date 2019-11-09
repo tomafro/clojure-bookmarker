@@ -5,7 +5,10 @@
             [http :as server]
             [routes :refer [url-for]]
             [io.pedestal.http :as http]
-            [database]))
+            [database]
+            [ring.util.codec]
+            [clojure.string :refer [join]]
+            [medley.core :refer [map-keys]]))
 
 (defn run-within-transaction [test]
   (jdbc/with-transaction [tx database/db {:rollback-only true}]
@@ -18,8 +21,28 @@
 (def get
   (partial response-for service :get))
 
-(def post
-  (partial response-for service :post))
+(defn request-headers-from
+  [options]
+  (if (:form options)
+    (assoc (:headers options) "Content-Type" "application/x-www-form-urlencoded")
+    (:headers options)))
+
+(defn form-encode
+  [attributes]
+  (let [attributes (map-keys #(join "/" (keep identity [(namespace %) (name %)])) attributes)]
+    (ring.util.codec/form-encode attributes)))
+
+(defn request-body-from
+  [options]
+  (if-let [form (:form options)]
+    (form-encode form)
+    (:body options)))
+
+(defn post-url
+  [url & {:as options}]
+  (let [headers (request-headers-from options)
+        body (request-body-from options)]
+    (response-for service :post (url-for url) :body body :headers headers)))
 
 (defn get-url [url]
   (response-for service :get (url-for url)))

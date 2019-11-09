@@ -17,8 +17,8 @@
       (response/not-found "Not found")))
 
 (defn create-bookmark
-  [_]
-  (bookmarks.db/create #:bookmarks{:url "https://tomafro.net" :title "Title"})
+  [request]
+  (bookmarks.db/create (select-keys (:params request) [:bookmarks/title :bookmarks/url]))
   (response/created "created"))
 
 (defn index-bookmarks

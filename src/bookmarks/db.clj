@@ -14,6 +14,10 @@
   :args (s/cat :id :bookmarks/id)
   :ret (s/nilable :bookmarks/bookmark))
 
+(defn find-first
+  []
+  (database/find-first database/db :bookmarks))
+
 (defn create
   [values]
   (sql/insert! database/db :bookmarks values {:builder-fn database/as-kebab-maps}))

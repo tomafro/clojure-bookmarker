@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [find count])
   (:require
    [config]
-   [next.jdbc :as jdbc]
+   [next.jdbc :refer [get-datasource execute!]]
    [next.jdbc.sql :as sql]
    [next.jdbc.result-set :as result-set]
    [ragtime.jdbc]
@@ -10,7 +10,7 @@
    [clojure.spec.alpha :as s]
    [specs]))
 
-(def ^:dynamic db (jdbc/get-datasource (:database config/config)))
+(def ^:dynamic db (get-datasource (:database config/config)))
 
 (defn ragtime-config
   ([] (ragtime-config config/env))
@@ -39,6 +39,10 @@
 (s/fdef find-by-id
   :args (s/cat :id :db/bigserial)
   :ret (s/nilable (s/map-of keyword? any?)))
+
+(defn find-first
+  [db table]
+  (first (sql/query db [(str "SELECT * from " (name table) " ORDER BY id ASC")] {:builder-fn as-kebab-maps})))
 
 (defn count
   [db table]

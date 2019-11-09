@@ -31,3 +31,11 @@
 ;     (testing "unscrambled"
 ;       (is (= (range 0 35) (map scrambled->id one-char)))
 ;       (is (= (take 20 (range 36 1295)) (take 20 (map scrambled->id two-chars)))))))
+
+(defn show [numbers]
+  (prn numbers)
+  (prn (map #(* 101 %) numbers))
+  (prn (map #(mod (* 101 %) 1296) numbers))
+  (prn (map #(quot (* 101 %) 1296) numbers)))
+
+(show (range 36 56))

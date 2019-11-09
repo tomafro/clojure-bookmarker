@@ -18,7 +18,8 @@
   lambdaisland/uri                {:mvn/version "1.1.0"}
   tick                            {:mvn/version "0.4.20-alpha"}
   com.stuartsierra/component      {:mvn/version "0.4.0"}
-  de.ubercode.clostache/clostache {:mvn/version "1.4.0"}}
+  de.ubercode.clostache/clostache {:mvn/version "1.4.0"}
+  ring/ring-codec                 {:mvn/version "1.1.2"}}
  :paths ["src" "resources"]
  :aliases
  {:dev

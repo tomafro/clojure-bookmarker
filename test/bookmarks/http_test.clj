@@ -15,9 +15,11 @@
 
 (deftest create-bookmark-test
   (testing "successful create"
-    (let [response (http/post "/bookmarks")]
+    (let [response (http/post-url :bookmarks/create :form #:bookmarks{:title "Blog" :url "https://tomafro.net"})]
+      (is (= 201 (:status response)))
       (is (= "created" (:body response)))
-      (is (= 1 (bookmarks.db/count))))))
+      (is (= #:bookmarks{:title "Blog" :url "https://tomafro.net"}
+             (select-keys (bookmarks.db/find-first) [:bookmarks/title :bookmarks/url]))))))
     
 (deftest show-bookmark-test
   (testing "missing bookmark"
