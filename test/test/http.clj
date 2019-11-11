@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get select])
   (:require [io.pedestal.test :refer [response-for]]
             [next.jdbc :as jdbc]
-            [http :as server]
+            [http.server :as server]
             [http.routes :refer [url-for]]
             [io.pedestal.http :as http]
             [database]

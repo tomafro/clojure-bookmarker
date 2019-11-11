@@ -1,6 +1,6 @@
 (ns service
   (:require [com.stuartsierra.component :as component]
-            [http]
+            [http.server]
             [config]
             [next.jdbc :as jdbc]))
 
@@ -20,7 +20,7 @@
     (component/system-map
      :database (->Database database nil)
      :http (component/using
-           (http/->Server nil)
+           (http.server/->Server nil)
            [:database]))))
 
 (defn start []

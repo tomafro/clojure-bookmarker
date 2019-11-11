@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [uuid?])
   (:require [clojure.test :refer [deftest testing is]]
             [test.http :as http]
-            [http :as server]
+            [http.server :as server]
             [http.response :as response]))
 
 (defn uuid?

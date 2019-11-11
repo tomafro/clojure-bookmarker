@@ -1,4 +1,4 @@
-(ns http
+(ns http.server
   (:require
    [clojure.walk]
    [io.pedestal.http :as http]
