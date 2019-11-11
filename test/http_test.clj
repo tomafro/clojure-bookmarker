@@ -1,9 +1,7 @@
 (ns http-test
   (:refer-clojure :exclude [uuid?])
   (:require [clojure.test :refer [deftest testing is]]
-            [test.http :as http]
-            [http.server :as server]
-            [http.response :as response]))
+            [test.http :as http]))
 
 (defn uuid?
   [uuid]

@@ -27,8 +27,8 @@
   :ret :bookmarks/bookmark)
 
 (defn count
-  []
-  (database/count database/db :bookmarks))
+  ([] (count [database/db])
+  ([db] database/count db :bookmarks)))
 
 (s/fdef count
-  :ret  :postgres/bigint)
+  :ret :postgres/bigint)
