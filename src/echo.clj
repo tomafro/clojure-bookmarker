@@ -12,7 +12,15 @@
   [request]
   (response/ok (with-out-str (clojure.pprint/pprint request))))
 
+(defn echo-header
+  [request]
+  (let [name (get-in request [:path-params :header])
+        header (get-in request [:headers name])]
+    (response/ok header)))
+
+
 (defn routes
   []
-  [["/echo" {:any [:echo `echo]}]
+  [["/echo/header/:header" {:any [:echo-header `echo-header]}]
+   ["/echo" {:any [:echo `echo]}]
    ["/echo-context" {:any [:echo-context `echo-context]}]])

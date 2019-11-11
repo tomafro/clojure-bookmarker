@@ -1,6 +1,5 @@
 (ns bookmarks.http-test
   (:require [clojure.test :refer [deftest testing is use-fixtures]]
-            [routes :refer [url-for]]
             [bookmarks.http]
             [test.http :as http]
             [test.html :as html]
@@ -11,7 +10,8 @@
 
 (deftest new-bookmark-test
   (let [response (http/get-url :bookmarks/new)]
-    (is (html/select response [:form]))))
+    (is (html/select response [:form]))
+    (is (= "a" (:body response)))))
 
 (deftest create-bookmark-test
   (testing "successful create"
