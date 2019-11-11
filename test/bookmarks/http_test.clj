@@ -10,8 +10,7 @@
 
 (deftest new-bookmark-test
   (let [response (http/get-url :bookmarks/new)]
-    (is (html/select response [:form]))
-    (is (= "a" (:body response)))))
+    (is (html/select response [:form]))))
 
 (deftest create-bookmark-test
   (testing "successful create"

@@ -1,4 +1,4 @@
-(ns response)
+(ns http.response)
 
 (def status-codes
   {100 :continue

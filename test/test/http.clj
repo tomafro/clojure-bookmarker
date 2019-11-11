@@ -3,7 +3,7 @@
   (:require [io.pedestal.test :refer [response-for]]
             [next.jdbc :as jdbc]
             [http :as server]
-            [routes :refer [url-for]]
+            [http.routes :refer [url-for]]
             [io.pedestal.http :as http]
             [database]
             [ring.util.codec]

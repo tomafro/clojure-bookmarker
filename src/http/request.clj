@@ -1,4 +1,4 @@
-(ns request
+(ns http.request
   (:require [medley.core :refer [map-keys]]))
 
 (def normalize-header-name (comp clojure.string/lower-case name))

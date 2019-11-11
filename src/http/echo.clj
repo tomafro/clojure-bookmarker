@@ -1,4 +1,4 @@
-(ns echo
+(ns http.echo
   (:require
    [http.response :as response]
    [io.pedestal.interceptor.helpers :as interceptor]))

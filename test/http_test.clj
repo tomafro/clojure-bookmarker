@@ -3,7 +3,7 @@
   (:require [clojure.test :refer [deftest testing is]]
             [test.http :as http]
             [http :as server]
-            [response]))
+            [http.response :as response]))
 
 (defn uuid?
   [uuid]

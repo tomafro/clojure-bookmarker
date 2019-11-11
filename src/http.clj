@@ -1,13 +1,10 @@
 (ns http
   (:require
-   [aero.core :refer (read-config)]
    [clojure.walk]
    [io.pedestal.http :as http]
    [io.pedestal.http.body-params]
-   [io.pedestal.http.route :as route]
    [io.pedestal.interceptor.helpers :as interceptor]
-   [io.pedestal.test :as test]
-   [routes]
+   [http.routes]
    [database]
    [com.stuartsierra.component :as component]))
 
@@ -43,7 +40,7 @@
                         (cons (io.pedestal.http.body-params/body-params))))))
 
 (def service-map
-  (-> {::http/routes routes/routes
+  (-> {::http/routes http.routes/routes
        ::http/type   :jetty
        ::http/port   8890
        ::http/join?  false}

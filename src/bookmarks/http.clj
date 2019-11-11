@@ -2,7 +2,7 @@
   (:require
    [bookmarks.views :refer [view]]
    [database]
-   [response]
+   [http.response :as response]
    [bookmarks.db]
    [io.pedestal.interceptor.helpers :as interceptor]))
 
