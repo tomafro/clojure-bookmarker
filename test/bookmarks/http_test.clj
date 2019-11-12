@@ -26,10 +26,10 @@
     (let [response (http/get "/bookmark/1234")]
       (is (= 404 (:status response)))))
   (testing "existing bookmark"
-    (let [bookmark (bookmarks.db/create #:bookmarks{:title "Hello" :url "https://www.example.com/url"})
+    (let [bookmark (bookmarks.db/create #:bookmarks{:title "Blog" :url "https://tomafro.net"})
           response (http/get-url [:bookmark :params {:bookmark-id (:bookmarks/id bookmark)}])]
       (is (= 200 (:status response)))
-      (is (html/select? response "a[href=\"https://www.example.com/url\"]")))))
+      (is (html/select? response "a[href=https://tomafro.net]:containsOwn(Blog)")))))
 
 (deftest index-bookmarks-test
   (is (= "LIST" (:body (http/get "/bookmarks")))))
