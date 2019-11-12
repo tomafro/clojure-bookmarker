@@ -8,12 +8,12 @@
 
 (defn new-bookmark
   [_]
-  (response/ok (view "views/bookmarks/new.mustache")))
+  (response/ok (view "bookmarks/new")))
 
 (defn show-bookmark
   [request]
   (if-let [bookmark (get-in request [:bookmarker :bookmark])]
-      (response/ok (view "views/bookmarks/show.mustache" bookmark))
+      (response/ok (view "bookmarks/show" bookmark))
       (response/not-found "Not found")))
 
 (defn create-bookmark

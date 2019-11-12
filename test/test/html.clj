@@ -1,7 +1,14 @@
 (ns test.html
   (:refer-clojure :exclude [get select])
-  (:require [net.cgrand.enlive-html :as html]))
+  (:import (org.jsoup Jsoup) 
+  (org.jsoup.select Elements)
+  (org.jsoup.nodes Element)))
+
+(defn response->page [response]
+  (Jsoup/parse (:body response)))
 
 (defn select [response selector]
-  (let [html (html/html-resource (java.io.StringReader. (:body response)))]
-    (html/select html selector)))
+  (.select (response->page response) selector))
+
+(defn select? [response selector]
+  (> (count (select response selector)) 0))
