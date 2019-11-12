@@ -20,8 +20,8 @@
 
 (defn create
   [values]
-  (sql/insert! database/db :bookmarks values {:builder-fn database/as-kebab-maps}))
-
+  (database/create database/db :bookmarks values))
+  
 (s/fdef create
   :args (s/cat :values (s/keys :req [:bookmarks/url :bookmarks/title]))
   :ret :bookmarks/bookmark)

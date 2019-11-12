@@ -51,6 +51,10 @@
 (s/fdef count
   :ret  :postgres/bigint)
 
+(defn create
+  [db table values]
+  (sql/insert! db table values {:builder-fn database/as-kebab-maps}))
+
 (defprotocol Repository
   (find [this id]))
 
