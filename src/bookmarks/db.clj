@@ -1,34 +1,23 @@
 (ns bookmarks.db
   (:refer-clojure :exclude [find count])
   (:require
-   [database]
-   [next.jdbc.sql :as sql]
+   [database.model]
    [clojure.spec.alpha :as s]
    [specs]))
 
-(defn find
-  [id]
-  (database/find-by-id database/db :bookmarks id))
+(def find (partial database.model/find :bookmarks))
+(def find-first (partial database.model/find-first :bookmarks))
+(def find-all (partial database.model/find-all :bookmarks))
+(def create (partial database.model/create :bookmarks))
+(def count (partial database.model/count :bookmarks))
 
 (s/fdef find
   :args (s/cat :id :bookmarks/id)
   :ret (s/nilable :bookmarks/bookmark))
 
-(defn find-first
-  []
-  (database/find-first database/db :bookmarks))
-
-(defn create
-  [values]
-  (database/create database/db :bookmarks values))
-  
 (s/fdef create
   :args (s/cat :values (s/keys :req [:bookmarks/url :bookmarks/title]))
   :ret :bookmarks/bookmark)
-
-(defn count
-  ([] (count [database/db]))
-  ([db] (database/count db :bookmarks)))
 
 (s/fdef count
   :ret :postgres/bigint)

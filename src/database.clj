@@ -55,9 +55,5 @@
   [db table values]
   (sql/insert! db table values {:builder-fn database/as-kebab-maps}))
 
-(defprotocol Repository
-  (find [this id]))
-
-(deftype DatabaseRepository [connection table]
-         Repository
-  (find [this id] sql/get-by-id connection table id {:builder-fn as-kebab-maps}))
+(def jdbc-options
+  {:builder-fn database/as-kebab-maps})

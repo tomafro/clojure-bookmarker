@@ -18,7 +18,7 @@
 
 (defn create-bookmark
   [request]
-  (bookmarks.db/create (select-keys (:params request) [:bookmarks/title :bookmarks/url]))
+  (database/create database/db :bookmarks (select-keys (:params request) [:bookmarks/title :bookmarks/url]))
   (response/created "created"))
 
 (defn index-bookmarks
