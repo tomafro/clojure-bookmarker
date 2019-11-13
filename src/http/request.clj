@@ -15,6 +15,6 @@
   [request name]
   (first (get-headers request [name])))
 
-(s/fdef get-header
-  :args (s/cat :request (s/coll-of request-header?))
-  :ret (s/nilable (s/map-of keyword? any?)))
+; (s/fdef get-header
+;   :args (s/cat :request (s/coll-of request-header?))
+;   :ret (s/nilable (s/map-of keyword? any?)))

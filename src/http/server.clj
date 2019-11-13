@@ -19,6 +19,15 @@
      (->> (get-in context [:request :headers "x-request-id"])
           (assoc-in context [:response :headers "X-Request-Id"])))))
 
+(def x-timing
+  (interceptor/around
+   ::x-timing
+   (fn [context]
+     (assoc-in context [:x-timing-start] (. System nanoTime)))
+   (fn [context]
+     (let [start (get-in context [:x-timing-start])]
+       (assoc-in context [:response :headers "X-Timing"] (str (- (. System nanoTime) start) "ns"))))))
+
 (def set-database-connection
   (interceptor/before
    ::set-database-connection
@@ -35,6 +44,7 @@
   (update-in service [::http/interceptors]
              #(vec (->> %
                         (cons keywordize-params)
+                        (cons x-timing)
                         (cons x-request-id)
                         (cons set-database-connection)
                         (cons (io.pedestal.http.body-params/body-params))))))
