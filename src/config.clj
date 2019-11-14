@@ -1,4 +1,5 @@
 (ns config
+  (:refer-clojure :exclude [load])
   (:require
    [aero.core :refer (read-config)]))
 
