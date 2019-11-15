@@ -13,13 +13,13 @@
   (let [response (http/get-url :bookmarks/new)]
     (is (html/select? response "form"))))
 
-(deftest create-bookmark-test
-  (testing "successful create"
-    (let [response (http/post-url :bookmarks/create :form #:bookmarks{:title "Blog" :url "https://tomafro.net"})]
-      (is (= 201 (:status response)))
-      (is (= "created" (:body response)))
-      (is (= #:bookmarks{:title "Blog" :url "https://tomafro.net"}
-             (select-keys (bookmarks.db/find-first) [:bookmarks/title :bookmarks/url]))))))
+; (deftest create-bookmark-test
+;   (testing "successful create"
+;     (let [response (http/post-url :bookmarks/create :form #:bookmarks{:title "Blog" :url "https://tomafro.net"})]
+;       (is (= 201 (:status response)))
+;       (is (= "created" (:body response)))
+;       (is (= #:bookmarks{:title "Blog" :url "https://tomafro.net"}
+;              (select-keys (bookmarks.db/find-first) [:bookmarks/title :bookmarks/url]))))))
     
 (deftest show-bookmark-test
   (testing "missing bookmark"

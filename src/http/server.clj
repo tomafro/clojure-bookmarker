@@ -6,6 +6,11 @@
    [io.pedestal.interceptor.helpers :as interceptor]
    [http.routes]
    [database]
+   [reitit.core :as reitit]
+   [reitit.http :as reitit-http]
+   [reitit.pedestal :as reitit-pedestal]
+   [reitit.coercion :as coercion]
+   [reitit.coercion.spec :as reitit-spec]
    [com.stuartsierra.component :as component]))
 
 (defn uuid [] (.toString (java.util.UUID/randomUUID)))
@@ -50,12 +55,15 @@
                         (cons (io.pedestal.http.body-params/body-params))))))
 
 (def service-map
-  (-> {::http/routes http.routes/routes
+  (-> {::http/routes []
        ::http/type   :jetty
        ::http/port   8890
        ::http/join?  false}
       (http/default-interceptors)
-      (app-interceptors)))
+      (reitit-pedestal/replace-last-interceptor (reitit-pedestal/routing-interceptor http.routes/router))
+      ;;(app-interceptors)
+      ;;(http/dev-interceptors)
+      ))
 
 (defrecord Server [server]
   component/Lifecycle

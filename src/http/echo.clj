@@ -18,9 +18,12 @@
         header (get-in request [:headers name])]
     (response/ok header)))
 
-
 (defn routes
   []
   [["/echo/header/:header" {:any [:echo-header `echo-header]}]
    ["/echo" {:any [:echo `echo]}]
    ["/echo-context" {:any [:echo-context `echo-context]}]])
+
+(defn reitit-routes
+  []
+  ["/echo" {:get echo}])

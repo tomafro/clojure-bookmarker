@@ -20,7 +20,9 @@
   com.stuartsierra/component      {:mvn/version "0.4.0"}
   de.ubercode.clostache/clostache {:mvn/version "1.4.0"}
   ring/ring-codec                 {:mvn/version "1.1.2"}
-  com.googlecode.log4jdbc/log4jdbc {:mvn/version "1.2"}}
+  com.googlecode.log4jdbc/log4jdbc {:mvn/version "1.2"}
+  metosin/reitit-pedestal         {:mvn/version "0.3.10"}
+  metosin/reitit-spec             {:mvn/version "0.3.10"}}
  :paths ["src" "resources"]
  :aliases
  {:dev
