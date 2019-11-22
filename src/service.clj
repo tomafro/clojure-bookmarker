@@ -20,8 +20,8 @@
     (component/system-map
      :database (map->Database {:url database})
      :http (component/using
-           (http.server/map->Server {})
-           [:database]))))
+            (http.server/new-server)
+            [:database]))))
 
 (defn start []
   (component/start (system (config/load-config))))

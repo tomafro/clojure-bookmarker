@@ -58,16 +58,18 @@
       (http/default-interceptors)
       (app-interceptors)))
 
-(defrecord Server [server pedestal-map]
+(defrecord Server [server database service-map]
   component/Lifecycle
 
   (start
     [this]
-    (let [map (or pedestal-map service-map)
-          server (http/start (http/create-server (assoc map ::server this)))]
+    (let [server (http/start (http/create-server (assoc service-map ::server this)))]
       (assoc this :server server)))
   
   (stop
     [this]
     (http/stop server)
     (dissoc this :server)))
+
+(defn new-server []
+  (map->Server {:service-map service-map}))
