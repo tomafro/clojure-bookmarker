@@ -35,8 +35,8 @@
                 org.clojure/test.check {:mvn/version "0.9.0"}
                 enlive                 {:mvn/version "1.1.6"}}
    :jvm-opts   ["-Dapp.env=test"]}
-  :rebel
-  {:extra-deps {com.bhauman/rebel-readline {:mvn/version "0.1.4"}
-                io.aviso/pretty            {:mvn/version "0.1.37"}}
-   :jvm-opts   ["-Dapp.repl=true"]
-   :main-opts  ["-m" "rebel-readline.main"]}}}
+  :repl {:extra-deps {com.bhauman/rebel-readline {:mvn/version "0.1.4"}
+                      nrepl {:mvn/version "0.6.0"}
+                      cider/cider-nrepl {:mvn/version "0.22.4"}
+                      io.aviso/pretty {:mvn/version "0.1.37"}}
+         :main-opts ["-m" "repl"]}}}
