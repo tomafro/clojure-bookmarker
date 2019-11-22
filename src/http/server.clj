@@ -71,5 +71,5 @@
     (http/stop server)
     (dissoc this :server)))
 
-(defn new-server []
-  (map->Server {:service-map service-map}))
+(defn new-server [& [options]]
+  (map->Server {:service-map (merge service-map options)}))
