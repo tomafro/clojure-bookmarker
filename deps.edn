@@ -39,4 +39,4 @@
                       nrepl {:mvn/version "0.6.0"}
                       cider/cider-nrepl {:mvn/version "0.22.4"}
                       io.aviso/pretty {:mvn/version "0.1.37"}}
-         :main-opts ["-m" "repl"]}}}
+         :main-opts ["-m" "dev.repl"]}}}

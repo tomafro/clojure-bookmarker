@@ -1,12 +1,13 @@
 (ns http.server
   (:require
    [clojure.walk]
+   [com.stuartsierra.component :as component]
+   [database]
+   [http.routes]
    [io.pedestal.http :as http]
    [io.pedestal.http.body-params]
    [io.pedestal.interceptor.helpers :as interceptor]
-   [http.routes]
-   [database]
-   [com.stuartsierra.component :as component]))
+   [io.pedestal.http.route :as route]))
 
 (defn uuid [] (.toString (java.util.UUID/randomUUID)))
 
@@ -57,14 +58,16 @@
       (http/default-interceptors)
       (app-interceptors)))
 
-(defrecord Server [server]
+(defrecord Server [server pedestal-map]
   component/Lifecycle
 
-  (start [component]
-    (println (format "Starting http server %s" component))
-    (let [server (http/start (http/create-server (assoc service-map ::server component)))]
-      (assoc component :server server)))
-
-  (stop [component]
+  (start
+    [this]
+    (let [map (or pedestal-map service-map)
+          server (http/start (http/create-server (assoc map ::server this)))]
+      (assoc this :server server)))
+  
+  (stop
+    [this]
     (http/stop server)
-    (assoc component :server nil)))
+    (dissoc this :server)))

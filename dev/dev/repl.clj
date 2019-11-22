@@ -1,4 +1,4 @@
-(ns repl
+(ns dev.repl
   (:require [nrepl.server :as nrepl-server]
             [cider.nrepl :refer [cider-nrepl-handler]]
             [rebel-readline.main :as rebel]

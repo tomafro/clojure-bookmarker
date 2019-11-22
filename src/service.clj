@@ -5,7 +5,7 @@
             [next.jdbc :as jdbc]))
 
 (defrecord Database [url datasource]
-  component/Lifecycle
+  component/Lifecycle 
 
   (start [component]
     (println (format "Using database '%s'" url))
@@ -18,9 +18,9 @@
 (defn system [config]
   (let [{:keys [database]} config]
     (component/system-map
-     :database (->Database database nil)
+     :database (map->Database {:url database})
      :http (component/using
-           (http.server/->Server nil)
+           (http.server/map->Server {})
            [:database]))))
 
 (defn start []
