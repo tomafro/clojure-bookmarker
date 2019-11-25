@@ -19,7 +19,6 @@
 ;; Transactions aren't working with wrapped jdbc yet, so resorting to truncate for now
 (defn run-within-transaction [test]
   (database/truncate database/db :bookmarks)
-  (prn database/db)
   (test))
 
 

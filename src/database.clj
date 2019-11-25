@@ -6,6 +6,7 @@
    [next.jdbc.sql :as sql]
    [next.jdbc.result-set :as result-set]
    [next.jdbc.middleware]
+   [io.pedestal.log]
    [ragtime.jdbc]
    [ragtime.repl]
    [clojure.spec.alpha :as s]
@@ -24,12 +25,12 @@
 (defn get-db
   []
   (let [start-fn (fn [sql-p opts]
-                   (prn sql-p)
                    [sql-p (merge opts {::start (System/nanoTime) ::sql sql-p})])
-                   ;;[sql-p opts])
         end-fn   (fn [rs opts]
-                     (prn [(first (::sql opts)) (- (System/nanoTime) (::start opts))])
-                     [rs opts])]
+                   (let [sql        (first (::sql opts))
+                         time-taken (int (/ (- (System/nanoTime) (::start opts)) 1000000))]
+                     (io.pedestal.log/info :msg (format "'%s' in %dms" sql time-taken))
+                     [rs opts]))]
   (next.jdbc.middleware/wrapper (get-datasource (:database config/config))
                                 {:pre-execute-fn start-fn
                                  :post-execute-fn end-fn})))

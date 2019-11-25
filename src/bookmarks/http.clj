@@ -1,7 +1,6 @@
 (ns bookmarks.http
   (:require
    [bookmarks.views :refer [view]]
-   [database]
    [http.response :as response]
    [bookmarks.db]
    [io.pedestal.interceptor.helpers :as interceptor]))
