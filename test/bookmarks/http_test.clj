@@ -3,7 +3,6 @@
             [bookmarks.http]
             [test.http :as http]
             [test.html :as html]
-            [net.cgrand.enlive-html :refer [attr=]]
             [database]
             [bookmarks.db]))
 

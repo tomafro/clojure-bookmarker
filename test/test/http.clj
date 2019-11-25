@@ -8,12 +8,20 @@
             [database]
             [ring.util.codec]
             [clojure.string :refer [join]]
-            [medley.core :refer [map-keys]]))
+            [medley.core :refer [map-keys]]
+            [io.aviso.repl]))
 
+; (defn run-within-transaction [test]
+;   (jdbc/with-transaction [tx database/db {:rollback-only true}]
+;     (binding [database/db tx]
+;       (test))))
+
+;; Transactions aren't working with wrapped jdbc yet, so resorting to truncate for now
 (defn run-within-transaction [test]
-  (jdbc/with-transaction [tx database/db {:rollback-only true}]
-    (binding [database/db tx]
-      (test))))
+  (database/truncate database/db :bookmarks)
+  (prn database/db)
+  (test))
+
 
 (def service
   (::http/service-fn (http/create-servlet server/service-map)))
