@@ -10,6 +10,7 @@
 (def find-all (partial database.model/find-all :bookmarks))
 (def create (partial database.model/create :bookmarks))
 (def count (partial database.model/count :bookmarks))
+(def truncate (partial database.model/truncate :bookmarks))
 
 (s/fdef find
   :args (s/cat :id :bookmarks/id)

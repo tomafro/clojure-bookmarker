@@ -1,7 +1,7 @@
 (ns test.http
   (:refer-clojure :exclude [get select])
   (:require [io.pedestal.test :refer [response-for]]
-            [next.jdbc :as jdbc]
+            [bookmarks.db]
             [http.server :as server]
             [http.routes :refer [url-for]]
             [io.pedestal.http :as http]
@@ -18,7 +18,7 @@
 
 ;; Transactions aren't working with wrapped jdbc yet, so resorting to truncate for now
 (defn run-within-transaction [test]
-  (database/truncate database/db :bookmarks)
+  (bookmarks.db/truncate)
   (test))
 
 

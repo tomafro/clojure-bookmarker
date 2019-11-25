@@ -3,6 +3,7 @@
   (:require
    [config]
    [database]
+   [next.jdbc]
    [next.jdbc.sql :as sql]))
 
 (defn find
@@ -24,3 +25,7 @@
 (defn create
   ([table values] (create table database/db values))
   ([table db values] (sql/insert! db table values)))
+
+(defn truncate
+  ([table] (truncate table database/db))
+  ([table db] (next.jdbc/execute! db [(str "TRUNCATE " (name table))])))

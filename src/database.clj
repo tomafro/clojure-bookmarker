@@ -12,30 +12,24 @@
    [clojure.spec.alpha :as s]
    [specs]))
 
+(defn before-sql
+  [sql-p opts]
+  [sql-p (merge opts {::start (System/nanoTime) ::sql sql-p})])
 
-(defn log-sql
-  [sql-p options]
-  (prn sql-p)
-  [sql-p options])
+(defn after-sql
+  [rs opts]
+  (let [statement (first (::sql opts))
+        elapsed (int (/ (- (System/nanoTime) (::start opts)) 1000000))]
+    (io.pedestal.log/info :msg (format "'%s' in %dms" statement elapsed)))
+  [rs opts])
 
-(defn get-unwrapped-db [] (get-datasource (:database config/config)))
+(defn wrap-datasource
+  [datasource]
+  (next.jdbc.middleware/wrapper datasource
+                                {:pre-execute-fn before-sql
+                                 :post-execute-fn after-sql}))
 
-
-;; (format "hello %d" (int (/ 223234 1000)))
-(defn get-db
-  []
-  (let [start-fn (fn [sql-p opts]
-                   [sql-p (merge opts {::start (System/nanoTime) ::sql sql-p})])
-        end-fn   (fn [rs opts]
-                   (let [sql        (first (::sql opts))
-                         time-taken (int (/ (- (System/nanoTime) (::start opts)) 1000000))]
-                     (io.pedestal.log/info :msg (format "'%s' in %dms" sql time-taken))
-                     [rs opts]))]
-  (next.jdbc.middleware/wrapper (get-datasource (:database config/config))
-                                {:pre-execute-fn start-fn
-                                 :post-execute-fn end-fn})))
-
-(def ^:dynamic db (get-db))
+(def ^:dynamic db (wrap-datasource (get-datasource (:database config/config))))
 
 (defn ragtime-config
   ([] (ragtime-config config/env))
@@ -56,38 +50,3 @@
 (defn as-kebab-maps [rs opts]
   (let [kebab #(clojure.string/replace % #"_" "-")]
     (result-set/as-modified-maps rs (assoc opts :qualifier-fn kebab :label-fn kebab))))
-
-(defn log-sql
-  [sql-p _]
-  (prn sql-p))
-
-(def jdbc-options
-  {:builder-fn database/as-kebab-maps
-   :pre-execute-fn log-sql})
-
-(defn find-by-id
-  [db table id]
-  (sql/get-by-id db table id jdbc-options))
-
-(s/fdef find-by-id
-  :args (s/cat :id :db/bigserial)
-  :ret (s/nilable (s/map-of keyword? any?)))
-
-(defn find-first
-  [db table]
-  (first (sql/query db [(str "SELECT * from " (name table) " ORDER BY id ASC")] jdbc-options)))
-
-(defn count
-  [db table]
-  (:count (first (sql/query db [(str "SELECT COUNT(*) count FROM " (name table))] jdbc-options))))
-
-(s/fdef count
-  :ret  :postgres/bigint)
-
-(defn create
-  [db table values]
-  (sql/insert! db table values jdbc-options))
-
-(defn truncate
-  [db table]
-  (execute! db [(str "TRUNCATE " (name table))]))
